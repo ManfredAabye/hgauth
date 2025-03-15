@@ -1,155 +1,115 @@
-HGAuth
+# HGAuth
 
-An Opensim authentication module that can enforce a Web Form submission before allowing 
-inbound HG teleport
+Ein Opensim-Authentifizierungsmodul, das eine Webformularübermittlung erzwingen kann, bevor eingehende HG-Teleports erlaubt werden.
 
-Version 1.0.4, December 17, 2024
-
------
-**Summary**
-
-This is a re-write of Project Sasha which has not been developed since 2018.
-
-This is a set of PHP scripts that provide a way to enforce inbound HG teleporting
-avatars (from other grids) to agree to terms presented on a web page, before they
-are allowed to enter.
-
-December 2024: I have re-written this to be compatible with the latest viewers and
-OS server versions. It now uses UUIDs for authentication.
-
-Although I am not aware of any issues, please use it at your own risk. 
+Version 1.0.4, 17. Dezember 2024
 
 -----
-**How it works**
+**Zusammenfassung**
 
-Avatars attempting to HG teleport to a grid for the first time with this package installed, will
-receive a rejection dialog in the Viewer that contains a customizable message and an
-external link. Clicking that link will take them to an external web page with an
-on-page message and a form. 
-Clicking the Confirm/Yes button on the form will authorize them for future
-inbound HG teleports.
+Dies ist eine Neufassung von Projekt Sasha, das seit 2018 nicht mehr entwickelt wurde.
 
-The current implementation authenticates based on avatar's UUID in the viewer
-and prevents this from being altered. The web form has security features to prevent
-a variety of misuses.
+Es handelt sich um eine Reihe von PHP-Skripten, die einen Weg bieten, eingehende HG-Teleports von Avataren (aus anderen Grids) zu erzwingen, um den auf einer Webseite präsentierten Bedingungen zuzustimmen, bevor sie eingelassen werden.
 
-The verbiage on the web page can be changed or adapted to suit your needs. 
-Project Sasha was originally developed to enforce legal requirements of GDPR for
-residents of the EU. However the form can be used to enforce TOS or other needs.
+Dezember 2024: Ich habe dies neu geschrieben, um mit den neuesten Viewern und OS-Serverversionen kompatibel zu sein. Es verwendet nun UUIDs zur Authentifizierung.
+
+Obwohl mir keine Probleme bekannt sind, verwenden Sie es bitte auf eigenes Risiko.
 
 -----
-**Recent changes**
+**Funktionsweise**
 
-Version 1.0.4 removes user@grid data in the authentication process due to
-unresolved issues in the HTTP requests' sequence of XML payloads. This version fixes
-viewer instability due to these bugs; However, user@grid information is no longer
-availabe for display on web forms or authentication. Authentication is now based on UUID.
-This change allows bug-free HG-TPs after signing the form.
+Avatare, die versuchen, zum ersten Mal mit diesem Paket zu einem Grid zu teleportieren, erhalten einen Ablehnungsdialog im Viewer mit einer anpassbaren Nachricht und einem externen Link. Durch Klicken auf diesen Link gelangen sie zu einer externen Webseite mit einer Nachricht auf der Seite und einem Formular. Durch Klicken auf die Bestätigungs-/Ja-Schaltfläche im Formular werden sie für zukünftige eingehende HG-Teleports autorisiert.
 
-The hgauth database table in Version 1.0.4 has an change since 1.0.3. Table data
-from previous versions is compatible, however, existing tables migrating to 1.0.4 MUST
-remove/delete the UNIQUE key for 'avatarname' before using version 1.0.4. You can optionally
-add an INDEX key for 'avatarname' to speed up queries.
+Die aktuelle Implementierung authentifiziert basierend auf der UUID des Avatars im Viewer und verhindert, dass dies geändert werden kann. Das Webformular verfügt über Sicherheitsfunktionen, um verschiedene Missbräuche zu verhindern.
 
-Version 1.0.3 added a workaround to keep user@grid data available for display and
-authentication. However, newer viewer releases developed an incompatibility to
-this with the symptom of requiring a viewer restart before a successful 2nd teleport. 
-
-Version 1.0.2 removed development code and added minor UI improvements.
-
-Version 1.0.1 contains minor bug fixes and documentation updates.
+Die Formulierungen auf der Webseite können geändert oder angepasst werden, um Ihren Bedürfnissen zu entsprechen. Projekt Sasha wurde ursprünglich entwickelt, um die rechtlichen Anforderungen der DSGVO für Bewohner der EU durchzusetzen. Das Formular kann jedoch für die Durchsetzung von AGB oder anderen Anforderungen verwendet werden.
 
 -----
-**Changes from Project Sasha**
+**Neueste Änderungen**
 
-- Eliminated transmitting the username and UUID in the clear in the URL namespace
-- Eliminated vulnerability of the form processor that could result in database misuse
-- Properly handle form submission through jQuery and AJAX
-- Fix PHP code not compatible with PHP 8.x 
-- Consolidation of PHP templates to simplify UI changes
-- Added developer information, to report bugs and feature requests
+Version 1.0.4 entfernt Benutzer@Grid-Daten aus dem Authentifizierungsprozess aufgrund ungelöster Probleme in der Sequenz von HTTP-Anforderungen der XML-Payloads. Diese Version behebt Instabilitäten im Viewer aufgrund dieser Fehler; jedoch sind Benutzer@Grid-Informationen nicht mehr für die Anzeige auf Webformularen oder die Authentifizierung verfügbar. Die Authentifizierung basiert nun auf UUID. Diese Änderung ermöglicht fehlerfreie HG-TPs nach Unterzeichnung des Formulars.
+
+Die hgauth-Datenbanktabelle in Version 1.0.4 hat eine Änderung seit 1.0.3. Daten aus früheren Versionen sind kompatibel, jedoch MÜSSEN bestehende Tabellen bei der Migration auf Version 1.0.4 den UNIQUE-Schlüssel für 'avatarname' entfernen/löschen. Sie können optional einen INDEX-Schlüssel für 'avatarname' hinzufügen, um Abfragen zu beschleunigen.
+
+Version 1.0.3 fügte eine Workaround hinzu, um Benutzer@Grid-Daten für Anzeige und Authentifizierung verfügbar zu halten. Neuere Viewer-Versionen entwickelten jedoch eine Inkompatibilität damit, die zu einem erfolgreichen 2. Teleport einen Viewer-Neustart erfordert.
+
+Version 1.0.2 entfernte Entwicklungscodes und fügte kleine UI-Verbesserungen hinzu.
+
+Version 1.0.1 enthält geringfügige Fehlerbehebungen und Dokumentationsupdates.
 
 -----
-**How to install**
+**Änderungen gegenüber Projekt Sasha**
 
-The file hgauth.sql will give you the table structure you need
-import it into your mysql server, into the database you choose.
+- Übertragung des Benutzernamens und der UUID in der URL-Namensraum eliminiert
+- Beseitigung der Verwundbarkeit des Formularprozessors, die zu Missbrauch der Datenbank führen könnte
+- Korrektes Handling der Formulareinreichung über jQuery und AJAX
+- PHP-Code repariert, nicht kompatibel mit PHP 8.x
+- Konsolidierung der PHP-Vorlagen zur Vereinfachung von UI-Änderungen
+- Hinzufügen von Entwicklerinformationen zur Fehlerberichterstattung und für Feature-Anfragen
 
-The file authconfig.php contains database credentials and configurations for the
-other scripts. It is used only as an include file so it could be placed outside
-the document root.
+-----
+**Installation**
 
-The file hgauth.php is expected to be used to receive HG teleport authorization
-requests from an Opensim Authorization Service Connector via HTTP, and to send
-responses back to that service. This file also includes a message that appears
-in the viewer's dialog box when the initial inbound teleport request is
-rejected. You may wish to update the message.
+Die Datei hgauth.sql liefert Ihnen die benötigte Tabellenstruktur
+Importieren Sie sie in Ihren MySQL-Server in die gewählte Datenbank.
 
-The file index.php is expected to be used to present an authorization form on a
-web browser to a user who has clicked the link in the viewer's HG TP rejection
-dialog. You may wish to change the on-screen message to suit your needs.
+Die Datei authconfig.php enthält Datenbankanmeldeinformationen und Konfigurationen für
+die anderen Skripte. Sie wird nur als Include-Datei verwendet und kann außerhalb
+des Dokumentenstamms platziert werden.
 
-After the files are configured and placed in appropriate web server directories,
-you need to make some changes to your Opensim configuration files for these to
-take effect.
+Die Datei hgauth.php wird verwendet, um HG-Teleport-Autorisierungsanfragen von einem Opensim Authorization Service Connector über HTTP zu empfangen und Antworten an diesen Dienst zurückzusenden. Diese Datei enthält auch eine Nachricht, die im Dialogfeld des Viewers erscheint, wenn der anfängliche eingehende Teleport-Antrag abgelehnt wird. Sie können die Nachricht aktualisieren.
 
-in file:
-config-include/GridCommon.ini (Grid Mode)  
-or  
-config-include/StandaloneCommon.ini (Standalone Mode)  
+Die Datei index.php wird verwendet, um auf einem Webbrowser ein Autorisierungsformular für einen Benutzer darzustellen, der auf den Link im HG TP-Ablehnungsdialog des Viewers geklickt hat. Sie können die Bildschirmnachricht nach Ihren Wünschen ändern.
 
-1) Add the following in the [Modules] section:
+Nachdem die Dateien konfiguriert und in die entsprechenden Webserver-Verzeichnisse platziert wurden, müssen Sie einige Änderungen an Ihren Opensim-Konfigurationsdateien vornehmen, damit diese wirksam werden.
+
+In der Datei:
+config-include/GridCommon.ini (Grid-Modus)
+oder
+config-include/StandaloneCommon.ini (Standalone-Modus)
+
+1) Fügen Sie Folgendes im Abschnitt [Modules] hinzu:
 
    AuthorizationServices = "RemoteAuthorizationServicesConnector"
 
-2) Add the following in the [AuthorizationService] section:
-	
+2) Fügen Sie Folgendes im Abschnitt [AuthorizationService] hinzu:
+
    AuthorizationServerURI = "http://yourwebserver/path/to/hgauth.php"
 
+Aus Sicherheitsgründen wird empfohlen, den Webzugriff auf diese Dateien einzuschränken. Eine Beispieltdatei htaccess.txt für Apache (Apache 2.4-Syntax) ist enthalten. Diese sollte in .htaccess umbenannt und im Verzeichnis mit den PHP-Skripten platziert werden. Möglicherweise muss Apache so konfiguriert werden, dass die .htaccess-Datei gelesen wird.
 
-For security it is recommended to restrict web access to these files. A sample
-htaccess.txt file for Apache is included (apache 2.4 syntax). This should be
-renamed .htaccess and placed in the directory containing the PHP scripts. Apache
-may need to be configured to read the .htaccess file.
+- authconfig.php - sollte nicht direkt zugegriffen werden, sondern nur als Include-Datei verwendet werden - empfohlen wird, dies außerhalb des Dokumentenstamms zu platzieren oder .htaccess zu verwenden, um den Zugriff zu verhindern.
+- hgauth.php - Zugriff sollte auf die IP der eingehenden HTTP-Verbindung des Hosting-Opensim-Servers beschränkt sein.
+- index.php - uneingeschränkte Webseite
 
-
-- authconfig.php - should not be accessed directly, it is meant to be an include file only -
-recommend placing this outside the document root or using .htaccess to prevent access
-- hgauth.php - access should be restricted to the IP of the hosting Opensim server's inbound HTTP connection
-- index.php - unrestricted web page
- 
-Though not critical, make sure your date.timezone is set in your php.ini.
-Failure to do so may result in database records containing a mix of local and
-GMT times. Creation time is written by the internal clock of mySQL while
-confirmation time is written by PHP.
+Obwohl nicht kritisch, stellen Sie sicher, dass Ihre date.timezone in Ihrer php.ini festgelegt ist. Andernfalls können Datensätze in der Datenbank eine Mischung aus lokalen und GMT-Zeiten enthalten. Die Erstellungszeit wird durch die interne Uhr von MySQL geschrieben, während die Bestätigungszeit von PHP geschrieben wird.
 
 -----
-**Requirements**
+**Anforderungen**
 
-- Webserver, tested on Apache 2.4.x
-- PHP, tested and developed on PHP 8.x
-- mySQL server, should work on all flavors of mySQL >= 7.x or MariaDB >= 10.x.
+- Webserver, getestet auf Apache 2.4.x
+- PHP, getestet und entwickelt auf PHP 8.x
+- MySQL-Server, sollte auf allen Versionen von MySQL >= 7.x oder MariaDB >= 10.x funktionieren.
 
 -----
-**Terms of Use**
+**Nutzungsbedingungen**
 
-By using files this package you agree with the following:
-- Installation is meant only for evaluation purposes
-- The service is not supported by the developers of Opensim server software
-- Authors are not liable for any damages, use it at your own risk
+Durch die Verwendung dieser Dateien aus diesem Paket stimmen Sie Folgendem zu:
+- Die Installation ist nur für Evaluierungszwecke gedacht.
+- Der Service wird nicht von den Entwicklern der Opensim-Server-Software unterstützt.
+- Die Autoren haften nicht für etwaige Schäden. Verwenden Sie es auf eigenes Risiko.
 
 -----
 **Credits**
 
-Portions of the code are taken from Project Sasha. The following people (avatars)
-are credited from Project Sasha: Foto50, Hack13, FreakyTech and Leighton Marjoram.
+Teile des Codes stammen aus Projekt Sasha. Folgende Personen (Avatare) werden aus Projekt Sasha genannt: Foto50, Hack13, FreakyTech und Leighton Marjoram.
 
 -----
 
-If you like this project, please give me a star.
+Wenn Ihnen dieses Projekt gefällt, geben Sie mir bitte einen Stern.
 
-Please notify me of any bugs or feature requests.
+Bitte informieren Sie mich über etwaige Fehler oder Feature-Anfragen.
 
-Cuga Rajal (Second Life and Opensim)
+Cuga Rajal (Second Life und Opensim)
 
 cuga@rajal.org
